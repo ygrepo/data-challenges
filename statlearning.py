@@ -762,6 +762,26 @@ from sklearn.metrics import roc_curve
 from sklearn.metrics import roc_auc_score
 
 
+def plot_roc_curves_orig(y_test, y_probs, labels, sample_weight=None):
+    fig, ax = plt.subplots(figsize=(9, 6))
+
+    N, M = y_probs.shape
+
+    for i in range(M):
+        fpr, tpr, _ = roc_curve(y_test, y_probs[:, i], sample_weight=sample_weight)
+        auc = roc_auc_score(y_test, y_probs[:, i], sample_weight=sample_weight)
+        ax.plot(fpr, tpr, label=labels.iloc[i] + ' (AUC = {:.3f})'.format(auc))
+
+    ax.plot([0, 0], [1, 1], linestyle='--', color='black', alpha=0.6)
+    ax.set_ylabel('True Positive Rate')
+    ax.set_xlabel('False Positive Rate')
+    ax.set_title('ROC curves', fontsize=14)
+    sns.despine()
+
+    plt.legend(fontsize=13, loc='lower right')
+
+    return fig, ax
+
 def plot_roc_curves(y_test, y_probs, labels, sample_weight=None):
     fig, ax = plt.subplots(figsize=(9, 6))
 
@@ -782,7 +802,6 @@ def plot_roc_curves(y_test, y_probs, labels, sample_weight=None):
     plt.legend(fontsize=13, loc='lower left')
 
     return fig, ax
-
 
 def bootstrap_mean(y, S=1000, alpha=0.05):
     y = np.ravel(y)
