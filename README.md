@@ -1,2 +1,2 @@
-# data_challenges
+# Data Challenges
 Data Challenges I solved.
