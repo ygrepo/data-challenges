@@ -664,6 +664,39 @@ def plot_confusion_matrix(cm, classes,
 import seaborn as sns
 
 
+def plot_roc_curve(y_test, y_probs, labels):
+    # Create true and false positive rates
+    false_positive_rate, true_positive_rate, threshold = roc_curve(y_test, y_probs,pos_label=4)
+
+    #Plot ROC curve
+    plt.title('Receiver Operating Characteristic')
+    plt.plot(false_positive_rate, true_positive_rate)
+    plt.plot([0, 1], ls="--")
+    plt.plot([0, 0], [1, 0] , c=".7"), plt.plot([1, 1] , c=".7")
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.show()
+
+def plot_roc_curves_orig(y_test, y_probs, labels, sample_weight=None):
+    fig, ax = plt.subplots(figsize=(9, 6))
+
+    N, M = y_probs.shape
+
+    for i in range(M):
+        fpr, tpr, _ = roc_curve(y_test, y_probs[:, i])
+        #fpr, tpr, _ = roc_curve(y_test, y_probs[:, i], sample_weight=sample_weight)
+        auc = roc_auc_score(y_test, y_probs[:, i], sample_weight=sample_weight)
+        ax.plot(fpr, tpr, label=labels.iloc[i] + ' (AUC = {:.3f})'.format(auc))
+
+    ax.plot([0, 0], [1, 1], linestyle='--', color='black', alpha=0.6)
+    ax.set_ylabel('True Positive Rate')
+    ax.set_xlabel('False Positive Rate')
+    ax.set_title('ROC curves', fontsize=14)
+    sns.despine()
+    plt.legend(fontsize=13, loc='lower right')
+
+    return fig, ax
+
 def plot_coefficients(model, labels):
     coef = model.coef_
     table = pd.Series(coef.ravel(), index=labels).sort_values(ascending=True, inplace=False)
