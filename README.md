@@ -1,2 +1,2 @@
 # Data Challenges
-Data Challenges I solved.
+Data Challenges I analyzed.
