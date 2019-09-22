@@ -1,6 +1,21 @@
+# Remove [I]Python caching
+__pycache__
+.ipynb_checkpoints
+
+# Remove Mac shit
 .DS_Store
-.idea/*
-__pycache__/*
-.ipynb_checkpoints/*
-.ipynb_checkpoints/**/**
-input/*
+
+# Remove Vim temp files
+*sw*
+
+# Ignore Data files
+*.tar.gz
+*.feat
+*.txt
+*.data
+.idea/
+*.pth
+*-ubyte
+*.pt
+*.png
+imdb
